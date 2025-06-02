@@ -4,10 +4,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Request, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard}from '../autenticacion/estrategias/jwt-auth.guard';
+import { JwtAuthGuard} from '../autenticacion/estrategias/jwt-auth.guard';
 
 
-
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
@@ -23,10 +23,7 @@ export class UsersController {
         return this.usersService.findOne(id);
     }
 
-    @Post()
-    async create(@Body() CreateUserDto: CreateUserDto): Promise<User> {
-        return this.usersService.create(CreateUserDto);
-    }
+
 
     @Put(':id')
     async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
@@ -38,10 +35,12 @@ export class UsersController {
         return this.usersService.remove(id);
     }
 
-     @UseGuards(JwtAuthGuard)
+   
     @Get('perfil')
     obtenerPerfil(@Request() req) {
         return req.user;
     }
+
+  
 
 }
