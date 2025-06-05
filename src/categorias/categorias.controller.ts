@@ -1,20 +1,28 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { CategoriasService } from './categorias.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { Category } from './entities/categoria.entity'; 
-
-
+import { Category } from './entities/categoria.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('categorias')
+@UseGuards(AuthGuard('jwt'))
 export class CategoriasController {
-    constructor(private readonly categoriasService: CategoriasService) {}
+  constructor(private readonly categoriasService: CategoriasService) {}
 
-    @Get()
-    async findAll(): Promise<Category[]> {
-      return this.categoriasService.findALL();
-}
-
+  @Get()
+  async findAll(): Promise<Category[]> {
+    return this.categoriasService.findALL();
+  }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Category> {
@@ -22,12 +30,17 @@ export class CategoriasController {
   }
 
   @Post()
-  async create(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
+  async create(
+    @Body() createCategoryDto: CreateCategoryDto,
+  ): Promise<Category> {
     return this.categoriasService.create(createCategoryDto);
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto,): Promise<Category> {
+  async update(
+    @Param('id') id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ): Promise<Category> {
     return this.categoriasService.update(id, updateCategoryDto);
   }
 
@@ -36,4 +49,3 @@ export class CategoriasController {
     return this.categoriasService.remove(id);
   }
 }
-

@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { OneToMany } from 'typeorm';
 import { Tarea } from '../../tarea/entities/tarea.entity';
 
-@Entity('users')
+@Entity('usuarios')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -19,7 +19,7 @@ export class User {
   @Column()
   password: string;
 
-   // Relación con Tareas
-    @OneToMany(() => Tarea, (tarea) => tarea.usuario)
-    tarea: Tarea[];
+  // Relación con Tareas
+  @OneToMany(() => Tarea, (tarea) => tarea.usuario)
+  tarea: Tarea[];
 }

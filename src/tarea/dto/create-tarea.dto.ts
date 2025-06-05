@@ -1,31 +1,37 @@
-import { IsString, IsNotEmpty, IsOptional, IsEnum, IsDateString, IsUUID } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsEnum,
+  IsDateString,
+  IsUUID,
+  IsBoolean,
+} from 'class-validator';
 
 export class CreateTareaDto {
-    @IsString()
-    @IsNotEmpty()
-    titulo: string;
+  @IsString()
+  @IsNotEmpty()
+  titulo: string;
 
-    @IsString()
-    @IsOptional()
-    descripcion?: string;
+  @IsString()
+  @IsOptional()
+  descripcion?: string;
 
-    @IsEnum(['pendiente', 'en_progreso', 'completada'])
-    @IsOptional()
-    estado?: string;
+  @IsEnum(['pendiente', 'progreso', 'completada'])
+  @IsOptional()
+  estado?: string;
 
-    @IsEnum(['baja', 'media', 'alta'])
-    @IsOptional()
-    prioridad?: string;
+  @IsUUID()
+  @IsNotEmpty()
+  usuarioId: string;
 
-    @IsDateString()
-    @IsOptional()
-    fechaVencimiento?: Date;
+  @IsUUID()
+  @IsOptional()
+  categoriaId?: string;
 
-    @IsUUID()
-    @IsNotEmpty()
-    usuarioId: string;
+  @IsBoolean()
+  favorito: boolean;
 
-    @IsUUID()
-    @IsOptional()
-    categoriaId?: string;
+  @IsBoolean()
+  realizada: boolean;
 }
