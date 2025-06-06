@@ -1,13 +1,7 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Param,
-  Body,
-  Query,
-  UseGuards,
+  Controller, Get, Post, Put, Delete, Param, Body, Query, UseGuards,
+
+  
 } from '@nestjs/common';
 import { TareaService } from './tarea.service';
 import { CreateTareaDto } from './dto/create-tarea.dto';

@@ -1,12 +1,6 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Param,
-  Body,
-  UseGuards,
+  Controller, Get, Post, Put, Delete,Param,
+  Body, UseGuards,
 } from '@nestjs/common';
 import { CategoriasService } from './categorias.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -28,6 +22,8 @@ export class CategoriasController {
   async findOne(@Param('id') id: string): Promise<Category> {
     return this.categoriasService.findOne(id);
   }
+
+  
 
   @Post()
   async create(

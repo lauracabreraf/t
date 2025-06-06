@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { OneToMany } from 'typeorm';
 import { Tarea } from '../../tarea/entities/tarea.entity';
 
+
 @Entity('categorias')
 export class Category {
   @PrimaryGeneratedColumn('uuid')
