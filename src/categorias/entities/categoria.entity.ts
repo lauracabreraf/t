@@ -5,8 +5,8 @@ import { Tarea } from '../../tarea/entities/tarea.entity';
 
 @Entity('categorias')
 export class Category {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   name: string;
@@ -18,3 +18,6 @@ export class Category {
   @OneToMany(() => Tarea, (tarea) => tarea.categoria)
   tarea: Tarea[];
 }
+
+
+

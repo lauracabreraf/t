@@ -25,18 +25,18 @@ export class TareaController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Tarea> {
+  async findOne(@Param('id') id: number): Promise<Tarea> {
     return this.tareasService.findOne(id);
   }
 
   @Get('usuario/:usuarioId')
-  async findByUser(@Param('usuarioId') usuarioId: string): Promise<Tarea[]> {
+  async findByUser(@Param('usuarioId') usuarioId: number): Promise<Tarea[]> {
     return this.tareasService.findByUser(usuarioId);
   }
 
   @Get('categoria/:categoriaId')
   async findByCategory(
-    @Param('categoriaId') categoriaId: string,
+    @Param('categoriaId') categoriaId: number,
   ): Promise<Tarea[]> {
     return this.tareasService.findByCategory(categoriaId);
   }
@@ -48,14 +48,14 @@ export class TareaController {
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateTareaDto: UpdateTareaDto,
   ): Promise<Tarea> {
     return this.tareasService.update(id, updateTareaDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
+  async remove(@Param('id') id: number): Promise<void> {
     return this.tareasService.remove(id);
   }
 }

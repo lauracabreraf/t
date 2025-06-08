@@ -10,8 +10,8 @@ import { User } from '../../users/entities/user.entity';
 
 @Entity('tareas')
 export class Tarea {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ type: 'varchar', length: 255 })
   titulo: string;

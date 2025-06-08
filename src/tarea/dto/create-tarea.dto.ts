@@ -21,13 +21,12 @@ export class CreateTareaDto {
   @IsOptional()
   estado?: string;
 
-  @IsUUID()
+  
   @IsNotEmpty()
-  usuarioId: string;
+  usuarioId: number;
 
-  @IsUUID()
   @IsOptional()
-  categoriaId?: string;
+  categoriaId?: number;
 
   @IsBoolean()
   favorito: boolean;

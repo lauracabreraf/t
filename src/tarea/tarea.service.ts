@@ -32,7 +32,7 @@ export class TareaService {
     return await this.tareaRepository.save(nuevaTarea);
   }
 
-  async findOne(id: string): Promise<Tarea> {
+  async findOne(id: number): Promise<Tarea> {
     const tarea = await this.tareaRepository.findOne({
       where: { id },
       relations: ['usuario', 'categoria'],
@@ -45,7 +45,7 @@ export class TareaService {
     return tarea;
   }
 
-  async findByUser(usuarioId: string): Promise<Tarea[]> {
+  async findByUser(usuarioId: number): Promise<Tarea[]> {
     return this.tareaRepository.find({
       where: {
         usuario: {
@@ -56,7 +56,7 @@ export class TareaService {
     });
   }
 
-  async findByCategory(categoriaId: string): Promise<Tarea[]> {
+  async findByCategory(categoriaId: number): Promise<Tarea[]> {
     return this.tareaRepository.find({
       where: {
         categoria: {
@@ -67,12 +67,12 @@ export class TareaService {
     });
   }
 
-  async update(id: string, updateTareaDto: UpdateTareaDto): Promise<Tarea> {
+  async update(id: number, updateTareaDto: UpdateTareaDto): Promise<Tarea> {
     await this.findOne(id);
     return await this.tareaRepository.save({ id, ...updateTareaDto });
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     const result = await this.tareaRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`Tarea with id ${id} not found`);

@@ -19,7 +19,7 @@ export class CategoriasController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Category> {
+  async findOne(@Param('id') id: number): Promise<Category> {
     return this.categoriasService.findOne(id);
   }
 
@@ -34,14 +34,14 @@ export class CategoriasController {
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ): Promise<Category> {
     return this.categoriasService.update(id, updateCategoryDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
+  async remove(@Param('id') id: number): Promise<void> {
     return this.categoriasService.remove(id);
   }
 }
