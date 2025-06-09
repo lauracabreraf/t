@@ -7,6 +7,9 @@ import {
 } from 'typeorm';
 import { Category } from '../../categorias/entities/categoria.entity';
 import { User } from '../../users/entities/user.entity';
+import { timestamp } from 'rxjs';
+import { Subtarea } from './subtarea.entity'
+import { OneToMany } from 'typeorm';
 
 @Entity('tareas')
 export class Tarea {
@@ -42,4 +45,17 @@ export class Tarea {
   })
   @JoinColumn({ name: 'categoriaId' })
   categoria: Category;
+
+  @Column({ type: 'text', nullable: true })
+  nota?: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  fechaVencimiento?: Date;
+
+  @OneToMany(() => Subtarea, (subtarea) => subtarea.tarea, {
+  cascade: true,
+})
+subtareas: Subtarea[];
 }
+
+

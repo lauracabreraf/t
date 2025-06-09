@@ -7,6 +7,8 @@ import { UsersModule } from './users/users.module';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { TareasModule } from './tarea/tarea.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SubtareasModule } from './tarea/subtarea.module';
+
 
 @Module({
   imports: [
@@ -32,6 +34,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
     }),
     TareasModule,
+    SubtareasModule,
     CategoriasModule,
     UsersModule,
     AutenticacionModule,

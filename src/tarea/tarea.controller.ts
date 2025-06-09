@@ -9,6 +9,10 @@ import { UpdateTareaDto } from './dto/update-tarea.dto';
 import { Tarea } from './entities/tarea.entity';
 import { AuthGuard } from '@nestjs/passport';
 
+import { GetUser } from 'src/autenticacion/decorators/get-user.decorator'; // ← ajusta el path si es distinto
+import { User } from 'src/users/entities/user.entity';
+
+
 @Controller('tarea')
 @UseGuards(AuthGuard('jwt'))
 export class TareaController {
@@ -41,9 +45,12 @@ export class TareaController {
     return this.tareasService.findByCategory(categoriaId);
   }
 
+  @UseGuards(AuthGuard()) 
   @Post()
-  async create(@Body() createTareaDto: CreateTareaDto): Promise<Tarea> {
-    return this.tareasService.create(createTareaDto);
+  async create(@Body() createTareaDto: CreateTareaDto,
+  @GetUser() user: User,
+   ): Promise<Tarea> {
+    return this.tareasService.create(createTareaDto, user);
   }
 
   @Put(':id')

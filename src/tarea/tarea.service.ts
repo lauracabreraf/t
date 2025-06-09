@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Tarea } from './entities/tarea.entity';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
+import { User } from 'src/users/entities/user.entity'; 
+
 
 @Injectable()
 export class TareaService {
@@ -19,15 +21,13 @@ export class TareaService {
     });
   }
 
-  async create(createTareaDto: CreateTareaDto): Promise<Tarea> {
+  async create(createTareaDto: CreateTareaDto, user: User): Promise<Tarea> {
     const nuevaTarea = this.tareaRepository.create({
       ...createTareaDto,
       categoria: {
         id: createTareaDto.categoriaId,
       },
-      usuario: {
-        id: createTareaDto.usuarioId,
-      },
+      usuario: user, 
     });
     return await this.tareaRepository.save(nuevaTarea);
   }
@@ -84,4 +84,6 @@ export class TareaService {
       relations: ['usuario', 'categoria'],
     });
   }
+
+   
 }

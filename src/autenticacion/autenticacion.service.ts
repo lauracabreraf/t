@@ -1,8 +1,8 @@
 import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+  BadRequestException, Injectable, UnauthorizedException,
+} 
+
+from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
@@ -10,6 +10,7 @@ import { RegisterAutentDto } from './dto/registro-autenticacion.dto';
 import { JwtPayload } from './interfaces/autenticacion-interface';
 import { LoginAutentDto } from './dto/login-autenticacion.dto';
 import { UsersService } from 'src/users/users.service';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Injectable()
 export class AutenticacionService {
@@ -64,8 +65,59 @@ export class AutenticacionService {
       email: user.email,
     };
 
-    const token = await this.jwtService.signAsync(payload);
 
-    return { access_token: token };
+
+
+
+
+    
+
+    const accessToken = await this.jwtService.signAsync(payload, {
+    secret: 'claveSecreta',
+    expiresIn: '2h',
+    });
+
+    const refreshToken = await this.jwtService.signAsync(payload, {
+    secret: 'refreshSecret',
+    expiresIn: '7d',
+    });
+
+   return {
+    access_token: accessToken,
+    refresh_token: refreshToken,
+   };
+
+   
+
+  }
+
+  async refreshToken(refreshTokenDto: RefreshTokenDto) {
+    const { refresh_token } = refreshTokenDto;
+
+    try {
+      const payload = await this.jwtService.verifyAsync(refresh_token, {
+        secret: 'refreshSecret', 
+      });
+
+      const newAccessToken = await this.jwtService.signAsync(
+        {
+          sub: payload.sub,
+          email: payload.email,
+        },
+        {
+          secret: 'claveSecreta',
+          expiresIn: '2h',
+        },
+      );
+
+      return {
+        access_token: newAccessToken,
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Refresh token inválido o expirado');
+    }
   }
 }
+  
+
+

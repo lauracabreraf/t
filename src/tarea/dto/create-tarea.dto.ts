@@ -4,7 +4,6 @@ import {
   IsOptional,
   IsEnum,
   IsDateString,
-  IsUUID,
   IsBoolean,
 } from 'class-validator';
 
@@ -21,9 +20,6 @@ export class CreateTareaDto {
   @IsOptional()
   estado?: string;
 
-  
-  @IsNotEmpty()
-  usuarioId: number;
 
   @IsOptional()
   categoriaId?: number;
@@ -33,4 +29,12 @@ export class CreateTareaDto {
 
   @IsBoolean()
   realizada: boolean;
+
+  @IsOptional()
+  @IsString()
+  nota?: string; 
+
+  @IsOptional()
+  @IsDateString()
+  fechaVencimiento?: string;
 }
