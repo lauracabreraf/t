@@ -1,6 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Tarea } from './tarea.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Tarea } from 'src/tarea/entities/tarea.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity('subtareas')
 export class Subtarea {
@@ -16,7 +21,4 @@ export class Subtarea {
   @ManyToOne(() => Tarea, (tarea) => tarea.subtareas, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'tareaId' })
   tarea: Tarea;
-
-   @ManyToOne(() => User, (user) => user.subtareas, { onDelete: 'CASCADE' })
-  usuario: User;
 }

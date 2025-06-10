@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Tarea } from './entities/tarea.entity';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
-import { User } from 'src/users/entities/user.entity'; 
+import { User } from 'src/users/entities/user.entity';
 
 
 @Injectable()
@@ -27,7 +27,9 @@ export class TareaService {
       categoria: {
         id: createTareaDto.categoriaId,
       },
-      usuario: user, 
+      usuario: {
+        id: user.id
+      }
     });
     return await this.tareaRepository.save(nuevaTarea);
   }
@@ -85,5 +87,5 @@ export class TareaService {
     });
   }
 
-   
+
 }

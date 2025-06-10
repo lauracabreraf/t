@@ -16,7 +16,7 @@ import { AutentController } from './autenticacion.controller';
     TypeOrmModule.forFeature([User]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: 'claveSecreta',
+      secret: process.env.JWT_SECRET || 'claveSecreta',
       signOptions: { expiresIn: '2h' },
     }),
   ],

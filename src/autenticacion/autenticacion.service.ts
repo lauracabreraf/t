@@ -1,8 +1,8 @@
 import {
-  BadRequestException, Injectable, UnauthorizedException,
-} 
-
-from '@nestjs/common';
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
@@ -11,12 +11,14 @@ import { JwtPayload } from './interfaces/autenticacion-interface';
 import { LoginAutentDto } from './dto/login-autenticacion.dto';
 import { UsersService } from 'src/users/users.service';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AutenticacionService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private  configService: ConfigService,
   ) {}
 
   async registrar(userData: RegisterAutentDto) {
@@ -33,7 +35,7 @@ export class AutenticacionService {
     });
 
     const payload: JwtPayload = {
-      sub: user.id,
+      id: user.id,
       email: user.email,
     };
 
@@ -61,34 +63,24 @@ export class AutenticacionService {
     }
 
     const payload: JwtPayload = {
-      sub: user.id,
+      id: user.id,
       email: user.email,
     };
 
-
-
-
-
-
-    
-
     const accessToken = await this.jwtService.signAsync(payload, {
-    secret: 'claveSecreta',
-    expiresIn: '2h',
+      secret: this.configService.get('JWT_SECRET'),
+      expiresIn: '2h',
     });
 
     const refreshToken = await this.jwtService.signAsync(payload, {
-    secret: 'refreshSecret',
-    expiresIn: '7d',
+      secret: this.configService.get('JWT_SECRET'),
+      expiresIn: '7d',
     });
 
-   return {
-    access_token: accessToken,
-    refresh_token: refreshToken,
-   };
-
-   
-
+    return {
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    };
   }
 
   async refreshToken(refreshTokenDto: RefreshTokenDto) {
@@ -96,7 +88,7 @@ export class AutenticacionService {
 
     try {
       const payload = await this.jwtService.verifyAsync(refresh_token, {
-        secret: 'refreshSecret', 
+        secret: 'claveSecreta',
       });
 
       const newAccessToken = await this.jwtService.signAsync(
@@ -118,6 +110,3 @@ export class AutenticacionService {
     }
   }
 }
-  
-
-

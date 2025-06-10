@@ -7,7 +7,7 @@ import {
   Put,
   Get,
   ParseIntPipe,
-  Patch
+  Patch,
 } from '@nestjs/common';
 import { SubtareaService } from './subtarea.service';
 import { CreateSubtareaDto } from './dto/create-subtarea.dto';
@@ -21,8 +21,6 @@ export class SubtareaController {
   async create(@Body() createSubtareaDto: CreateSubtareaDto) {
     return this.subtareaService.create(createSubtareaDto);
   }
-
-  
 
   @Put(':id')
   async update(
@@ -42,21 +40,16 @@ export class SubtareaController {
     return this.subtareaService.buscarPorTarea(tareaId);
   }
 
-  @Patch(':id/completada')
+  @Patch('actualizar/id/:id')
   async marcarComoCompletada(
-    @Param('id,', ParseIntPipe) id: number,
-    @Body('completada') completada: boolean,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatedDto: UpdateSubtareaDto,
   ) {
-    return this.subtareaService.marcarComoCompletada(id, completada);
+    return this.subtareaService.actualizaSubTarea(id, updatedDto);
   }
 
   @Get('usuario/:usuarioId')
-async findByUsuario(@Param('usuarioId', ParseIntPipe) usuarioId: number) {
-  return this.subtareaService.buscarPorUsuario(usuarioId);
+  async findByUsuario(@Param('usuarioId', ParseIntPipe) usuarioId: number) {
+    return this.subtareaService.buscarPorUsuario(usuarioId);
+  }
 }
-
-
-}
-
-
-

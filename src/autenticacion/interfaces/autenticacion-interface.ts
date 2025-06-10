@@ -1,8 +1,8 @@
 export interface JwtPayload {
-  sub: number;   
-  email: string; 
+  id: number;
+  email: string;
 }
 
 export interface AuthResponse {
-  access_token: string; 
+  access_token: string;
 }

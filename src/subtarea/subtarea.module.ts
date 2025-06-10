@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { SubtareaService } from './subtarea.service';
 import { SubtareaController } from './subtarea.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Tarea } from 'src/tarea/entities/tarea.entity';
 import { Subtarea } from './entities/subtarea.entity';
-import { Tarea } from './entities/tarea.entity';
+import { AutenticacionModule } from 'src/autenticacion/autenticacion.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Subtarea, Tarea])],
   controllers: [SubtareaController],
   providers: [SubtareaService],
+  imports: [TypeOrmModule.forFeature([Tarea, Subtarea]), AutenticacionModule]
 })
-export class SubtareasModule {}
+export class SubtareaModule {}

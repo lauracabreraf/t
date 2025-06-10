@@ -1,7 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { OneToMany } from 'typeorm';
 import { Tarea } from '../../tarea/entities/tarea.entity';
-import { Subtarea } from 'src/tarea/entities/subtarea.entity';
 
 @Entity('usuarios')
 export class User {
@@ -20,11 +19,6 @@ export class User {
   @Column()
   password: string;
 
-  
   @OneToMany(() => Tarea, (tarea) => tarea.usuario)
   tarea: Tarea[];
-
-  @OneToMany(() => Subtarea, (subtarea) => subtarea.usuario)
-  subtareas: Subtarea[];
-
 }

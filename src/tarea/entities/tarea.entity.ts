@@ -7,9 +7,8 @@ import {
 } from 'typeorm';
 import { Category } from '../../categorias/entities/categoria.entity';
 import { User } from '../../users/entities/user.entity';
-import { timestamp } from 'rxjs';
-import { Subtarea } from './subtarea.entity'
 import { OneToMany } from 'typeorm';
+import { Subtarea } from 'src/subtarea/entities/subtarea.entity';
 
 @Entity('tareas')
 export class Tarea {
@@ -53,9 +52,7 @@ export class Tarea {
   fechaVencimiento?: Date;
 
   @OneToMany(() => Subtarea, (subtarea) => subtarea.tarea, {
-  cascade: true,
-})
-subtareas: Subtarea[];
+    cascade: true,
+  })
+  subtareas: Subtarea[];
 }
-
-

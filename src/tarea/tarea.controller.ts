@@ -1,7 +1,7 @@
 import {
   Controller, Get, Post, Put, Delete, Param, Body, Query, UseGuards,
 
-  
+
 } from '@nestjs/common';
 import { TareaService } from './tarea.service';
 import { CreateTareaDto } from './dto/create-tarea.dto';
@@ -11,10 +11,11 @@ import { AuthGuard } from '@nestjs/passport';
 
 import { GetUser } from 'src/autenticacion/decorators/get-user.decorator'; // ← ajusta el path si es distinto
 import { User } from 'src/users/entities/user.entity';
+import { JwtAuthGuard } from 'src/autenticacion/estrategias/jwt-auth.guard';
 
 
 @Controller('tarea')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtAuthGuard)
 export class TareaController {
   constructor(private readonly tareasService: TareaService) {}
 
@@ -45,7 +46,7 @@ export class TareaController {
     return this.tareasService.findByCategory(categoriaId);
   }
 
-  @UseGuards(AuthGuard()) 
+  @UseGuards(AuthGuard())
   @Post()
   async create(@Body() createTareaDto: CreateTareaDto,
   @GetUser() user: User,

@@ -14,7 +14,12 @@ export class SubtareaService {
 
   async create(createSubtareaDto: CreateSubtareaDto): Promise<Subtarea> {
     const nuevaSubtarea = this.subtareaRepository.create(createSubtareaDto);
-    return this.subtareaRepository.save(nuevaSubtarea);
+    return this.subtareaRepository.save({
+      ...nuevaSubtarea,
+      tarea: {
+        id: createSubtareaDto.tareaId
+      }
+    });
   }
 
   async update(id: number, updateSubtareaDto: UpdateSubtareaDto): Promise<Subtarea> {
@@ -41,24 +46,25 @@ export class SubtareaService {
     });
   }
 
-   async marcarComoCompletada(id: number, completada: boolean): Promise<Subtarea> {
+   async actualizaSubTarea(id: number, dtoEdit: UpdateSubtareaDto): Promise<Subtarea> {
     const subtarea = await this.subtareaRepository.findOne({ where: { id } });
 
     if (!subtarea) {
       throw new NotFoundException(`Subtarea con ID ${id} no encontrada`);
     }
 
-    subtarea.completada = completada;
-
-    return this.subtareaRepository.save(subtarea);
+    const subtareaActualizada = this.subtareaRepository.merge(subtarea, dtoEdit);
+    return await this.subtareaRepository.save(subtareaActualizada);
   }
 
   async buscarPorUsuario(usuarioId: number): Promise<Subtarea[]> {
-  return this.subtareaRepository.find({
+  return await this.subtareaRepository.find({
     where: {
-      usuario: {
-        id: usuarioId,
-      },
+      tarea: {
+        usuario: {
+          id: usuarioId,
+        }
+      }
     },
   });
 

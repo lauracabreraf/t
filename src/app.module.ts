@@ -7,8 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { TareasModule } from './tarea/tarea.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { SubtareasModule } from './tarea/subtarea.module';
-
+import { SubtareaModule } from './subtarea/subtarea.module';
 
 @Module({
   imports: [
@@ -19,13 +18,12 @@ import { SubtareasModule } from './tarea/subtarea.module';
     }),
 
     TypeOrmModule.forRootAsync({
-      
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: process.env.DB_HOST,
-        port: process.env.DB_PORT ? +process.env.DB_PORT : 5432 ,
+        port: process.env.DB_PORT ? +process.env.DB_PORT : 5432,
         username: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
@@ -34,10 +32,10 @@ import { SubtareasModule } from './tarea/subtarea.module';
       }),
     }),
     TareasModule,
-    SubtareasModule,
     CategoriasModule,
     UsersModule,
     AutenticacionModule,
+    SubtareaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
