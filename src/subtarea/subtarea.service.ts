@@ -12,6 +12,13 @@ export class SubtareaService {
     private readonly subtareaRepository: Repository<Subtarea>,
   ) {}
 
+
+  async findAll(): Promise<Subtarea[]> {
+     return await this.subtareaRepository.find({
+      relations: ['tarea'],
+     })
+  }
+
   async create(createSubtareaDto: CreateSubtareaDto): Promise<Subtarea> {
     const nuevaSubtarea = this.subtareaRepository.create(createSubtareaDto);
     return this.subtareaRepository.save({

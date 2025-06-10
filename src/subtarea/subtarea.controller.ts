@@ -22,6 +22,11 @@ export class SubtareaController {
     return this.subtareaService.create(createSubtareaDto);
   }
 
+  @Get()
+  async findAll(){
+    return this.subtareaService.findAll();
+  }
+
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,

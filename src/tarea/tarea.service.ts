@@ -83,7 +83,7 @@ export class TareaService {
 
   async findAll() {
     return this.tareaRepository.find({
-      relations: ['usuario', 'categoria'],
+      relations: ['usuario', 'categoria', 'subtareas'],
     });
   }
 
