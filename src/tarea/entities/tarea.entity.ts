@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Category } from '../../categorias/entities/categoria.entity';
+import { Lista } from '../../listas/entities/lista.entity';
 import { User } from '../../users/entities/user.entity';
 import { OneToMany } from 'typeorm';
 import { Subtarea } from 'src/subtarea/entities/subtarea.entity';
@@ -34,16 +34,16 @@ export class Tarea {
   @Column({ type: 'boolean', default: false })
   realizada: boolean;
 
-  @ManyToOne(() => User, (user) => user.tarea, { eager: true })
+  @ManyToOne(() => User, (user) => user.tareas, { eager: true })
   @JoinColumn({ name: 'usuarioId' })
   usuario: User;
 
-  @ManyToOne(() => Category, (category) => category.tarea, {
+  @ManyToOne(() => Lista, (lista) => lista.tareas, {
     eager: true,
     nullable: true,
   })
-  @JoinColumn({ name: 'categoriaId' })
-  categoria: Category;
+  @JoinColumn({ name: 'listaId' })
+  lista: Lista;
 
   @Column({ type: 'text', nullable: true })
   nota?: string;

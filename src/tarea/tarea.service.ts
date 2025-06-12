@@ -16,7 +16,7 @@ export class TareaService {
 
   async findAllByEstado(estado: string): Promise<Tarea[]> {
     return await this.tareaRepository.find({
-      relations: ['usuario', 'categoria'],
+      relations: ['usuario', 'lista'],
       where: { estado },
     });
   }
@@ -24,11 +24,11 @@ export class TareaService {
   async create(createTareaDto: CreateTareaDto, user: User): Promise<Tarea> {
     const nuevaTarea = this.tareaRepository.create({
       ...createTareaDto,
-      categoria: {
-        id: createTareaDto.categoriaId,
+      lista: {
+        id: createTareaDto.listaId,
       },
       usuario: {
-        id: user.id
+        id: createTareaDto.usuarioId,
       }
     });
     return await this.tareaRepository.save(nuevaTarea);
@@ -37,7 +37,7 @@ export class TareaService {
   async findOne(id: number): Promise<Tarea> {
     const tarea = await this.tareaRepository.findOne({
       where: { id },
-      relations: ['usuario', 'categoria'],
+      relations: ['usuario', 'lista'],
     });
 
     if (!tarea) {
@@ -54,25 +54,30 @@ export class TareaService {
           id: usuarioId,
         },
       },
-      relations: ['usuario', 'categoria'],
+      relations: ['usuario', 'lista'],
     });
   }
 
-  async findByCategory(categoriaId: number): Promise<Tarea[]> {
+  async findByLista(listaId: number): Promise<Tarea[]> {
     return this.tareaRepository.find({
       where: {
-        categoria: {
-          id: categoriaId,
+        lista: {
+          id: listaId,
         },
       },
-      relations: ['usuario', 'categoria'],
+      relations: ['usuario', 'lista'],
     });
   }
 
   async update(id: number, updateTareaDto: UpdateTareaDto): Promise<Tarea> {
-    await this.findOne(id);
-    return await this.tareaRepository.save({ id, ...updateTareaDto });
+  const tarea = await this.findOne(id); 
+  if (!updateTareaDto || Object.keys(updateTareaDto).length === 0) {
+    throw new Error('No se enviaron datos para actualizar');
   }
+  Object.assign(tarea, updateTareaDto); 
+  return await this.tareaRepository.save(tarea); 
+}
+
 
   async remove(id: number): Promise<void> {
     const result = await this.tareaRepository.delete(id);
@@ -83,7 +88,7 @@ export class TareaService {
 
   async findAll() {
     return this.tareaRepository.find({
-      relations: ['usuario', 'categoria', 'subtareas'],
+      relations: ['usuario', 'lista', 'subtareas'],
     });
   }
 

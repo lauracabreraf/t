@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CategoriasModule } from './categorias/categorias.module';
+import { ListasModule } from './listas/listas.module';
 import { UsersModule } from './users/users.module';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { TareasModule } from './tarea/tarea.module';
@@ -32,7 +32,7 @@ import { SubtareaModule } from './subtarea/subtarea.module';
       }),
     }),
     TareasModule,
-    CategoriasModule,
+    ListasModule,
     UsersModule,
     AutenticacionModule,
     SubtareaModule,

@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 import { OneToMany } from 'typeorm';
 import { Tarea } from '../../tarea/entities/tarea.entity';
+import { Lista } from '../../listas/entities/lista.entity';
 
 @Entity('usuarios')
 export class User {
@@ -19,6 +20,13 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Tarea, (tarea) => tarea.usuario)
-  tarea: Tarea[];
+  @OneToMany(() => Tarea, (tareas) => tareas.usuario)
+  tareas: Tarea[];
+
+  
+  @ManyToMany(() => Lista, lista => lista.usuariosCompartidos)
+  listasCompartidas: Lista[]; 
+  
+  @OneToMany(() => Lista, lista => lista.propietario)
+  listasPropias: Lista[];
 }

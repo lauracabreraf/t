@@ -39,15 +39,15 @@ export class TareaController {
     return this.tareasService.findByUser(usuarioId);
   }
 
-  @Get('categoria/:categoriaId')
+  @Get('lista/:listaId')
   async findByCategory(
-    @Param('categoriaId') categoriaId: number,
+    @Param('listaId') listaId: number,
   ): Promise<Tarea[]> {
-    return this.tareasService.findByCategory(categoriaId);
+    return this.tareasService.findByLista(listaId);
   }
 
-  @UseGuards(AuthGuard())
   @Post()
+  @UseGuards(AuthGuard())
   async create(@Body() createTareaDto: CreateTareaDto,
   @GetUser() user: User,
    ): Promise<Tarea> {

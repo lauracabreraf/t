@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsDateString,
   IsBoolean,
+  IsInt
 } from 'class-validator';
 
 export class CreateTareaDto {
@@ -22,7 +23,14 @@ export class CreateTareaDto {
 
 
   @IsOptional()
-  categoriaId?: number;
+  listaId?: number;
+
+  @IsInt()
+  @IsNotEmpty()
+  usuarioId: number;
+
+  
+
 
   @IsBoolean()
   favorito: boolean;
