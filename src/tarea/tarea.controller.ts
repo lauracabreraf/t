@@ -47,7 +47,6 @@ export class TareaController {
   }
 
   @Post()
-  @UseGuards(AuthGuard())
   async create(@Body() createTareaDto: CreateTareaDto,
   @GetUser() user: User,
    ): Promise<Tarea> {

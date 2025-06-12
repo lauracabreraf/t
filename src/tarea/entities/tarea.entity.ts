@@ -38,12 +38,12 @@ export class Tarea {
   @JoinColumn({ name: 'usuarioId' })
   usuario: User;
 
-  @ManyToOne(() => Lista, (lista) => lista.tareas, {
+  @OneToMany(() => Lista, (lista) => lista.tareas, {
     eager: true,
     nullable: true,
   })
-  @JoinColumn({ name: 'listaId' })
-  lista: Lista;
+
+  lista?: Lista[];
 
   @Column({ type: 'text', nullable: true })
   nota?: string;

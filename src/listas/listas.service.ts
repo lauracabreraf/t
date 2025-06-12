@@ -65,9 +65,6 @@ export class ListasService {
   }
 
 
-
-
-
   async compartirLista(compartirDto: CompartirListaDto): Promise<Lista> {
   const { listaId, usuariosIds } = compartirDto;
 

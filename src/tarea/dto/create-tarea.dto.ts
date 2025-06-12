@@ -21,16 +21,12 @@ export class CreateTareaDto {
   @IsOptional()
   estado?: string;
 
-
   @IsOptional()
   listaId?: number;
 
   @IsInt()
   @IsNotEmpty()
   usuarioId: number;
-
-  
-
 
   @IsBoolean()
   favorito: boolean;
@@ -40,7 +36,7 @@ export class CreateTareaDto {
 
   @IsOptional()
   @IsString()
-  nota?: string; 
+  nota?: string;
 
   @IsOptional()
   @IsDateString()

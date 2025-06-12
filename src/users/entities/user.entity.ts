@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 import { OneToMany } from 'typeorm';
 import { Tarea } from '../../tarea/entities/tarea.entity';
 import { Lista } from '../../listas/entities/lista.entity';
@@ -23,10 +23,8 @@ export class User {
   @OneToMany(() => Tarea, (tareas) => tareas.usuario)
   tareas: Tarea[];
 
-  
+
   @ManyToMany(() => Lista, lista => lista.usuariosCompartidos)
-  listasCompartidas: Lista[]; 
-  
-  @OneToMany(() => Lista, lista => lista.propietario)
-  listasPropias: Lista[];
+  @JoinTable()
+  listasCompartidas: Lista[];
 }

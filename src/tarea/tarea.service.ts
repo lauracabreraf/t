@@ -5,6 +5,7 @@ import { Tarea } from './entities/tarea.entity';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
 import { User } from 'src/users/entities/user.entity';
+import { Lista } from 'src/listas/entities/lista.entity';
 
 
 @Injectable()
@@ -12,6 +13,9 @@ export class TareaService {
   constructor(
     @InjectRepository(Tarea)
     private readonly tareaRepository: Repository<Tarea>,
+
+    @InjectRepository(Lista)
+    private readonly listaRepository: Repository<Lista>,
   ) {}
 
   async findAllByEstado(estado: string): Promise<Tarea[]> {
@@ -22,11 +26,9 @@ export class TareaService {
   }
 
   async create(createTareaDto: CreateTareaDto, user: User): Promise<Tarea> {
+
     const nuevaTarea = this.tareaRepository.create({
       ...createTareaDto,
-      lista: {
-        id: createTareaDto.listaId,
-      },
       usuario: {
         id: createTareaDto.usuarioId,
       }
@@ -70,12 +72,12 @@ export class TareaService {
   }
 
   async update(id: number, updateTareaDto: UpdateTareaDto): Promise<Tarea> {
-  const tarea = await this.findOne(id); 
+  const tarea = await this.findOne(id);
   if (!updateTareaDto || Object.keys(updateTareaDto).length === 0) {
     throw new Error('No se enviaron datos para actualizar');
   }
-  Object.assign(tarea, updateTareaDto); 
-  return await this.tareaRepository.save(tarea); 
+  Object.assign(tarea, updateTareaDto);
+  return await this.tareaRepository.save(tarea);
 }
 
 
