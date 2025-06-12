@@ -96,7 +96,8 @@ export class ListasService {
         usuariosCompartidos: {
           id: id,
         },
-      }
+      },
+      relations: ['tareas', 'tareas.subtareas', 'usuariosCompartidos'],
     })
   }
 }

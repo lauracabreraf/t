@@ -24,6 +24,10 @@ export class Lista {
 
   @ManyToMany(() => User, user => user.listasCompartidas)
   usuariosCompartidos: User[];
+
+  @ManyToOne(() => User, user => user.listasPropias, { eager: false })
+  @JoinColumn({ name: 'propietarioId' })
+  propietario: User;
 }
 
 

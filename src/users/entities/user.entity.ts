@@ -27,4 +27,7 @@ export class User {
   @ManyToMany(() => Lista, lista => lista.usuariosCompartidos)
   @JoinTable()
   listasCompartidas: Lista[];
+
+  @OneToMany(() => Lista, lista => lista.propietario)
+  listasPropias: Lista[];
 }
