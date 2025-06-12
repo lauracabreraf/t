@@ -1,6 +1,12 @@
 import {
-  Controller, Get, Post, Put, Delete,Param,
-  Body, UseGuards,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  UseGuards,
 } from '@nestjs/common';
 import { ListasService } from './listas.service';
 import { CreateListaDto } from './dto/create-lista.dto';
@@ -25,11 +31,8 @@ export class ListasController {
     return this.listasService.findOne(id);
   }
 
-
   @Post()
-  async create(
-    @Body() createCategoryDto: CreateListaDto,
-  ): Promise<Lista> {
+  async create(@Body() createCategoryDto: CreateListaDto): Promise<Lista> {
     return this.listasService.create(createCategoryDto);
   }
 
@@ -48,8 +51,11 @@ export class ListasController {
 
   @Patch('compartir')
   async compartirLista(@Body() compartirListaDto: CompartirListaDto) {
-  return this.listasService.compartirLista(compartirListaDto);
-}
+    return this.listasService.compartirLista(compartirListaDto);
+  }
 
-
+  @Get('buscar/lista/por-usuario/:id')
+  async findOneByUser(@Param('id') id: number): Promise<Lista[]> {
+    return this.listasService.findOneByUser(id);
+  }
 }

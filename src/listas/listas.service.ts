@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Lista } from './entities/lista.entity';
@@ -8,23 +12,21 @@ import { User } from 'src/users/entities/user.entity';
 import { CompartirListaDto } from './dto/compartir-lista.dto';
 import { In } from 'typeorm';
 
-
 @Injectable()
 export class ListasService {
   constructor(
-  @InjectRepository(Lista)
+    @InjectRepository(Lista)
     private readonly listaRepository: Repository<Lista>,
 
-  @InjectRepository(User)
-  private readonly userRepository: Repository<User>,
-
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async findALL(): Promise<Lista[]> {
-  return this.listaRepository.find({
-    relations: ['tareas', 'propietario', 'usuariosCompartidos'],
-  });
-}
+    return this.listaRepository.find({
+      relations: ['tareas', 'propietario', 'usuariosCompartidos'],
+    });
+  }
 
   async create(createListaDto: CreateListaDto) {
     const nuevaLista = this.listaRepository.create(createListaDto);
@@ -41,21 +43,20 @@ export class ListasService {
   }
 
   async update(id: number, updateListaDto: UpdateListaDto): Promise<Lista> {
-  const lista = await this.findOne(id);
+    const lista = await this.findOne(id);
 
-  if (!lista) {
-    throw new NotFoundException(`Lista con id ${id} no encontrada`);
+    if (!lista) {
+      throw new NotFoundException(`Lista con id ${id} no encontrada`);
+    }
+
+    if (Object.keys(updateListaDto).length === 0) {
+      throw new BadRequestException('No se enviaron datos para actualizar');
+    }
+
+    Object.assign(lista, updateListaDto);
+
+    return await this.listaRepository.save(lista);
   }
-
-  if (Object.keys(updateListaDto).length === 0) {
-    throw new BadRequestException('No se enviaron datos para actualizar');
-  }
-
-  Object.assign(lista, updateListaDto);
-
-  return await this.listaRepository.save(lista);
-}
-
 
   async remove(id: number): Promise<void> {
     const result = await this.listaRepository.delete(id);
@@ -64,30 +65,38 @@ export class ListasService {
     }
   }
 
-
   async compartirLista(compartirDto: CompartirListaDto): Promise<Lista> {
-  const { listaId, usuariosIds } = compartirDto;
+    const { listaId, usuariosIds } = compartirDto;
 
-  const lista = await this.listaRepository.findOne({
-    where: { id: listaId },
-    relations: ['usuariosCompartidos'],
-  });
+    const lista = await this.listaRepository.findOne({
+      where: { id: listaId },
+      relations: ['usuariosCompartidos'],
+    });
 
-  if (!lista) {
-    throw new NotFoundException('Lista no encontrada');
+    if (!lista) {
+      throw new NotFoundException('Lista no encontrada');
+    }
+
+    const usuarios = await this.userRepository.find({
+      where: { id: In(usuariosIds) },
+    });
+
+    if (usuarios.length !== usuariosIds.length) {
+      throw new NotFoundException('Algunos usuarios no fueron encontrados');
+    }
+
+    lista.usuariosCompartidos = usuarios;
+
+    return this.listaRepository.save(lista);
   }
 
-  const usuarios = await this.userRepository.find({
-  where: { id: In(usuariosIds) },
-});
-
-  if (usuarios.length !== usuariosIds.length) {
-    throw new NotFoundException('Algunos usuarios no fueron encontrados');
+  async findOneByUser(id: number) {
+    return await this.listaRepository.find({
+      where: {
+        usuariosCompartidos: {
+          id: id,
+        },
+      }
+    })
   }
-
-  lista.usuariosCompartidos = usuarios;
-
-  return this.listaRepository.save(lista);
-}
-
 }
