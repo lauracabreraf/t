@@ -1,23 +1,24 @@
-import {
-  Controller, Get, Post, Put, Delete, Param, Body, Query, UseGuards,
-
-
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UploadedFile, UseInterceptors} from '@nestjs/common';
 import { TareaService } from './tarea.service';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
 import { Tarea } from './entities/tarea.entity';
-import { AuthGuard } from '@nestjs/passport';
-
-import { GetUser } from 'src/autenticacion/decorators/get-user.decorator'; // ← ajusta el path si es distinto
+import { GetUser } from 'src/autenticacion/decorators/get-user.decorator'; 
 import { User } from 'src/users/entities/user.entity';
-import { JwtAuthGuard } from 'src/autenticacion/estrategias/jwt-auth.guard';
+import { Response } from 'express';
+import { Res } from '@nestjs/common';
+import { Parser } from 'json2csv';
+import { FileInterceptor } from '@nestjs/platform-express';
+
+
+
 
 
 @Controller('tarea')
-@UseGuards(JwtAuthGuard)
 export class TareaController {
   constructor(private readonly tareasService: TareaService) {}
+
+  
 
   @Get('listar/estado/:estado')
   async findAllByEstado(@Param('estado') estado: string) {
@@ -65,4 +66,70 @@ export class TareaController {
   async remove(@Param('id') id: number): Promise<void> {
     return this.tareasService.remove(id);
   }
+
+  @Get('exportar/csv')
+  async exportarTareasCSV(@Res() res: Response) {
+    const tareas = await this.tareasService.findAll();
+
+    const datos = tareas.map((tarea) => ({
+      id: tarea.id,
+      titulo: tarea.titulo,
+      descripcion: tarea.descripcion || '',
+      estado: tarea.estado,
+      favorito: tarea.favorito ? 'Sí' : 'No',
+      realizada: tarea.realizada ? 'Sí' : 'No',
+      usuario: tarea.usuario?.username || tarea.usuario?.id || 'Sin usuario',
+      lista: tarea.lista?.id || 'Sin lista',
+      nota: tarea.nota || '',
+      fechaVencimiento: tarea.fechaVencimiento
+        ? tarea.fechaVencimiento.toISOString().split('T')[0]
+        : '',
+      subtareas: tarea.subtareas?.length || 0,
+    }));
+
+    const fields = [
+      'id',
+      'titulo',
+      'descripcion',
+      'estado',
+      'favorito',
+      'realizada',
+      'usuario',
+      'lista',
+      'nota',
+      'fechaVencimiento',
+      'subtareas',
+    ];
+
+    const parser = new Parser({ fields });
+    const csv = parser.parse(datos);
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment('tareas.csv');
+    return res.send(csv);
+  }
+
+  @Post('importar/csv')
+
+  @UseInterceptors(FileInterceptor('file', {
+    dest: './uploads',
+  })) 
+
+  async importarCsv(@UploadedFile()
+file:Express.Multer.File) {
+  return this.tareasService.importarDesdeCsv(file);
+
+
 }
+
+}
+
+
+  
+
+  
+
+  
+
+     
+

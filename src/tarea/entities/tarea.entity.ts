@@ -38,12 +38,9 @@ export class Tarea {
   @JoinColumn({ name: 'usuarioId' })
   usuario: User;
 
-  @OneToMany(() => Lista, (lista) => lista.tareas, {
-    eager: true,
-    nullable: true,
-  })
-
-  lista?: Lista[];
+  @ManyToOne(() => Lista, (lista) => lista.tareas, {eager: true, nullable: true,})
+  @JoinColumn( { name: 'listaId'})
+  lista?: Lista;
 
   @Column({ type: 'text', nullable: true })
   nota?: string;
@@ -56,3 +53,5 @@ export class Tarea {
   })
   subtareas: Subtarea[];
 }
+
+
