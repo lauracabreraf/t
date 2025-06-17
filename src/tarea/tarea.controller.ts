@@ -14,6 +14,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 
 
+
 @Controller('tarea')
 export class TareaController {
   constructor(private readonly tareasService: TareaService) {}
@@ -30,12 +31,8 @@ export class TareaController {
     return this.tareasService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: number): Promise<Tarea> {
-    return this.tareasService.findOne(id);
-  }
 
-  @Get('usuario/:usuarioId')
+    @Get('usuario/:usuarioId')
   async findByUser(@Param('usuarioId') usuarioId: number): Promise<Tarea[]> {
     return this.tareasService.findByUser(usuarioId);
   }
@@ -47,25 +44,10 @@ export class TareaController {
     return this.tareasService.findByLista(listaId);
   }
 
-  @Post()
-  async create(@Body() createTareaDto: CreateTareaDto,
-  @GetUser() user: User,
-   ): Promise<Tarea> {
-    return this.tareasService.create(createTareaDto, user);
-  }
 
-  @Put(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() updateTareaDto: UpdateTareaDto,
-  ): Promise<Tarea> {
-    return this.tareasService.update(id, updateTareaDto);
-  }
 
-  @Delete(':id')
-  async remove(@Param('id') id: number): Promise<void> {
-    return this.tareasService.remove(id);
-  }
+  
+//BAJAR DATA
 
   @Get('exportar/csv')
   async exportarTareasCSV(@Res() res: Response) {
@@ -109,6 +91,9 @@ export class TareaController {
     return res.send(csv);
   }
 
+
+  
+  //SUBIR DATA
   @Post('importar/csv')
 
   @UseInterceptors(FileInterceptor('file', {
@@ -116,11 +101,63 @@ export class TareaController {
   })) 
 
   async importarCsv(@UploadedFile()
-file:Express.Multer.File) {
+  file:Express.Multer.File) {
   return this.tareasService.importarDesdeCsv(file);
+ }
 
 
+
+ //SUBIR DESDE EL SERVIDOR SFTP
+    @Get('importar-sftp')
+    async importarDesdeFtp() {
+    await this.tareasService.importarArchivoDesdeSftp();
+    return { message: 'Archivo descargado correctamente desde FTP' };
+  }
+
+
+  // BAJAR Y GUARDAR EN EL SERVIDOR SFTP
+  @Get('exportar-sftp')
+  async exportarDesdeFtp() {
+  await this.tareasService.exportarArchivoDesdeSftp();
+  return { message: 'Archivo csv generado y guardado exitosamente en el servidor' };
 }
+
+
+ //LEER Y MOSTRAR EL CONTENIDO DE CSV 
+   @Get('leer-csv')
+   async leerCsv() {
+   return this.tareasService.leerCsvLocal();
+}
+
+
+  @Get(':id')
+  async findOne(@Param('id') id: number): Promise<Tarea> {
+    return this.tareasService.findOne(id);
+  }
+
+
+  
+
+  @Post()
+  async create(@Body() createTareaDto: CreateTareaDto,
+  @GetUser() user: User,
+   ): Promise<Tarea> {
+    return this.tareasService.create(createTareaDto, user);
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() updateTareaDto: UpdateTareaDto,
+  ): Promise<Tarea> {
+    return this.tareasService.update(id, updateTareaDto);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: number): Promise<void> {
+    return this.tareasService.remove(id);
+  }
+
 
 }
 

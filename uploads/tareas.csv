@@ -1,0 +1,28 @@
+"id","titulo","descripcion","estado","favorito","realizada","usuario","lista","nota","fechaVencimiento","subtareas"
+25,"Hacer presentacion power Point","Hacer la presentacion bien","pendiente","No","No","Luis","Sin lista","Aprenderse la expo","2025-06-22",2
+44,"Monografico","","pendiente","Sí","No","lili","Sin lista","","2025-07-02",2
+20,"Un titulo","Una descripcion","pendiente","Sí","Sí","Steisy","Sin lista","Urgentee","2025-06-10",0
+26,"Tarea 99","Una descripcion","pendiente","Sí","Sí","Luis","Sin lista","Urgentee","2025-06-10",0
+27,"Tarea 3000","Una descripcion","pendiente","Sí","Sí","Luis","Sin lista","Urgentee","2025-06-10",0
+39,"..)","Investogacion","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+33,"Tarea 30","Una descripcion","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+31,"Tarea 3000","Una descripcion","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+34,"Tarea 30","Investogacionn","pendiente","No","No","Sin usuario","Sin lista","","2025-06-18",0
+12,"Un titulo","Una descripcion","pendiente","Sí","Sí","Steisy","Sin lista","Urgentee","2025-06-10",0
+40,"Subbir migracion a QA","nada","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+21,"Tarea 30","Una descripcion","pendiente","Sí","Sí","Steisy","Sin lista","Urgentee","2025-06-10",0
+37,"Tarea 31","Una descripcion","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+32,"Un titulo","Una descripcion","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+24,"Tarea 30","Investogacionn","pendiente","No","No","Carmen","Sin lista","Urgente","2025-06-18",0
+38,"Subbir migracion a QA ","nada","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+28,"Hacer presentacion power Point","Hacer la presentacion bien","pendiente","No","No","Sin usuario","Sin lista","","2025-06-22",0
+30,"Tarea 99","Una descripcion","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+6,"Estudiar nextjs (react) (frond end)","Investogacion","pendiente","No","No","Carmen","Sin lista","Urgente","2025-06-15",0
+29,"Un titulo","Una descripcion","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+41,"SUbir archivo csv","..","pendiente","No","No","Carmen","Sin lista","Aprenderse la expo","2025-06-20",0
+36,"Tarea 32","Una descripcion","pendiente","No","No","Sin usuario","Sin lista","","2025-06-10",0
+23,"Tarea 32","Una descripcion","pendiente","Sí","Sí","Steisy","Sin lista","Urgentee","2025-06-10",0
+22,"Tarea 31","Una descripcion","pendiente","Sí","Sí","Steisy","Sin lista","Urgentee","2025-06-10",0
+35,"Estudiar nextjs (react) (frond end)","Investogacion","pendiente","No","No","Sin usuario","Sin lista","","2025-06-15",0
+9,"Subbir migracion a QA ","nada","pendiente","No","No","Steisy","Sin lista","Urgente","2025-06-10",0
+7,"..)","Investogacion","pendiente","No","No","Carmen","Sin lista","Urgente","2025-06-10",0

@@ -8,6 +8,9 @@ import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { TareasModule } from './tarea/tarea.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SubtareaModule } from './subtarea/subtarea.module';
+import { FtpService } from './ftp/ftp.service';
+import { FtpModule } from './ftp/ftp.module';
+
 
 @Module({
   imports: [
@@ -36,8 +39,10 @@ import { SubtareaModule } from './subtarea/subtarea.module';
     UsersModule,
     AutenticacionModule,
     SubtareaModule,
+    FtpModule,
   ],
   controllers: [AppController],
   providers: [AppService],
+
 })
 export class AppModule {}
